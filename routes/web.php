@@ -15,6 +15,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//学习类的路由组
+Route::prefix('study')->group(function(){
+    //足球竞猜添加页面
+    Route::get('guess/add','Study\GuessController@add');
+    //足球竞猜添加
+    Route::any('guess/doAdd','Study\GuessController@doAdd');
+    //竞猜列表页面
+    Route::get('guess/list','Study\GuessController@list');
+    Route::get('guess/guess','Study\GuessController@guess');
+    //竞猜添加
+    Route::get('guess/result','Study\GuessController@checkResult');
+    Route::post('guess/doGuess','Study\GuessController@doGuess');
+    
+    Route::get('lottery/index','Study\LotteryController@lottery');//抽奖页面
+
+    Route::any('lottery/do','Study\LotteryController@doLottery');//执行抽奖
+});
+
+
 // Route::get('/permissions/create',function(){
 //     	return view('admin.home');
 //     })->name('admin.permission.create');

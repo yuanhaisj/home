@@ -53,6 +53,15 @@ Route::post('read/rank','Api\NovelController@bookRank');
 //小说详情接口
 Route::post('novel/detail/{id}','Api\NovelController@detail');
 Route::any('novel/clicks/{id}','Api\NovelController@clicks');
+Route::any('novel/read/{id}','Api\NovelController@readNum');
 
 //小说章节列表接口
 Route::post('chapter/list/{novel_id}','Api\ChapterController@chapterList');
+Route::post('chapter/info/{id}','Api\ChapterController@chapterInfo');
+
+//评论添加接口
+Route::post('comment/add','Api\CommentController@add');
+//列表接口
+Route::post('comment/list','Api\CommentController@list');
+//删除接口
+Route::post('comment/del/{id}','Api\CommentController@del');

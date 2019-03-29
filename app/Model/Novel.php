@@ -142,4 +142,13 @@ class Novel extends Model
 
         return $res;
     }
+
+    public function updateRead($id)
+    {
+        $res = self::where('id',$id)
+            ->update(['read_num'=>DB::raw('read_num+1')]);
+
+
+        return $res;
+    }
 }

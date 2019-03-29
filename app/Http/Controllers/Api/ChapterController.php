@@ -23,4 +23,43 @@ class ChapterController extends Controller
 
     	return json_encode($return);
     }
+    
+    //获取章节详情
+    public function chapterInfo($id)
+    {
+        $chapter = new Chapter();
+
+        $info = $chapter->getChapter($id);//获取当前章节详情
+        // dd($info);
+        $prev = $chapter->getPrevChapter($info->novel_id,$info->sort);
+        $next = $chapter->getNextChapter($info->novel_id,$info->sort);
+
+        if(empty($prev)){
+            $prevChapter = 0;
+        }else{
+            $prevChapter = $prev->id;
+        }
+
+        if(empty($next)){
+            $nextChapter = 0;
+        }else{
+            $nextChapter = $next->id;
+        }
+
+        $data = [
+           'prev_id' => $prevChapter,
+           'next_id' => $nextChapter,
+           'info'    => $info
+        ];
+
+        $return = [
+            'code' =>2000,
+            'msg'  =>"获取小说章节内容成功",
+            'data' =>$data
+        ];
+
+        return json_encode($return);
+    }
+
+    
 }
