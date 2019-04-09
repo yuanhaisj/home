@@ -40,6 +40,32 @@ class ToolsAdmin
 		return $menus;
 	}
     
+    //创建无限级分类树的结构
+	public static function buildTreeString($data,$fid=0,$level=0,$fkey="fid")
+	{
+		if(empty($data)){
+			return [];
+		}
+
+		static $tree = [];
+
+		foreach ($data as $k => $v) {
+			//判断当前的父类id是否递归调用传过来的id
+			if($v[$fkey] == $fid){
+
+				$v['level'] = $level;
+
+				$tree[] = $v;
+
+				unset($data[$fkey]);
+
+				self::buildTreeString($data,$v['id'],$level+1,$fkey);
+			}
+		}
+
+		return $tree;
+	}
+    
     /**
      * 文件上传函数
      * @param  $files   $object
@@ -104,5 +130,11 @@ class ToolsAdmin
 		$urls = \App\Model\Permissions::getUrlsByIds($pids);//根据权限节点id获取所有的权限的url地址
 
 		return $urls;
+	}
+    
+    //生成货号
+	public static function buildGoodsSn($string = 16)
+	{
+		return  'JY'.date('YmdHis',time());
 	}
 }

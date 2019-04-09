@@ -20,6 +20,7 @@ class CreateJyGoodsAttrTable extends Migration
             $table->enum('input_type',[1,2])->default(1)->comment('1、手动输入  2、单选');
             $table->string('attr_value')->default('')->comment('属性值');
             $table->enum('status',[1,2])->default(1)->comment('1、可用  2、禁用');
+            $table->engine = 'InnoDB';
         });
     }
 

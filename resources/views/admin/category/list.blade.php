@@ -1,48 +1,115 @@
 @extends('common.admin_base')
 
-@section('title','管理后台-分类列表')
+@section('title','管理后台商品分类')
 
+
+<!--页面顶部信息-->
 @section('pageHeader')
-<div class="pageheader">
-      <h2><i class="fa fa-home"></i> 分类列表 <span>Subtitle goes here...</span></h2>
-      <div class="breadcrumb-wrapper">
-      </div>
+    <div class="pageheader">
+        <h2><i class="fa fa-home"></i> 商品分类 <span>Subtitle goes here...</span></h2>
+        <div class="breadcrumb-wrapper">
+            <a class="btn btn-sm btn-danger" href="/admin/category/add">+ 商品分类</a>
+        </div>
     </div>
 @endsection
 
 @section('content')
-       {{csrf_field()}}
-       <div class="row" id="list">
+    {{csrf_field()}}
+
+    <div class="row" id="cate_list">
         <div class="col-md-12">
+        <p><button v-if="fid > 0" class="btn btn-sm btn-success"  @click="getCategoryList(0)">返回上一级</button></p>
             <div class="table-responsive">
-                <table class="table table-primary mb30">
+                
+                <table class="table table-primary  mb30">
                     <thead>
-                      <tr>
+                    <tr>
                         <th>ID</th>
-                        <th>分类名</th>
+                        <th>分类名称</th>
+                        <th>是否可用</th>
                         <th>操作</th>
-                      </tr>
+                    </tr>
                     </thead>
                     <tbody>
-                    @if(!empty($categorys))
-                      @foreach($categorys as $category)
-                        <tr>
-                          <td>{{$category['id']}}</td>
-                          <td>{{$category['c_name']}}</td>
-                          <td>
-                            
-                              <a href="{{ route('admin.category.del',[ 'id'=>$category['id'] ]) }}" class="btn btn-sm btn-danger">删除</a>
-                          </td>
-                        </tr>
-                      @endforeach
-
-                    @endif
-                      
+                    <tr v-for="cate in cate_list ">
+                        <td>{cate.id}</td>
+                        <td>{cate.cate_name}</td>
+                        <td>
+                            <button @click="changeAttr(cate.id,'status',2)" v-if="cate.status==1" class="btn btn-sm btn-success">可用</button>
+                            <button @click="changeAttr(cate.id,'status',1)" v-else class="btn btn-sm btn-black">禁用</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-success" @click="getCategoryList(cate.id)">查看子级</button>&nbsp;
+                            <a class="btn btn-sm btn-warning" v-bind:href="'/admin/category/edit/'+cate.id">编辑</a>&nbsp;
+                            <button class="btn btn-sm btn-danger" @click="delCategory(cate.id)">删除</button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
-               {{$categorys->links()}}
             </div><!-- table-responsive -->
         </div>
-      </div>
-
+    </div>
+    <script src="/js/vue.js"></script>
+    <script>
+        var category = new Vue({
+            el:"#cate_list",
+            delimiters:['{','}'],
+            data:{
+                cate_list:[],
+                fid:0,
+            },
+            created:function(){
+                this.getCategoryList();
+            },
+            methods:{
+                //获取分类列表
+                getCategoryList:function(fid=0){
+                    var that = this;
+                    this.fid = fid;
+                    $.ajax({
+                        url:"/admin/category/get/data/"+fid,
+                        type:"get",
+                        data:{},
+                        dataType:"json",
+                        success:function(res){
+                            if(res.code == 2000){
+                                that.cate_list = res.data;
+                            }
+                        }
+                    })
+                },
+                //删除操作
+                delCategory:function(id){
+                    var that = this;
+                   
+                    $.ajax({
+                        url:"/admin/category/del/"+id,
+                        type:"get",
+                        data:{},
+                        dataType:"json",
+                        success:function(res){
+                            if(res.code == 2000){
+                                that.getCategoryList(that.fid);
+                            }
+                        }
+                    })
+                },
+                //修改分类属性
+                changeAttr:function(id,key,value){
+                    var that=this;
+                    $.ajax({
+                        url:"/admin/category/change/attr",
+                        type:"get",
+                        data:{_token:$("input[name=_token]").val(),id:id,key:key,value:value},
+                        dataType:"json",
+                        success:function(res){
+                            if(res.code==2000){
+                                that.getCategoryList();
+                            }
+                        }
+                    })
+                }
+            }
+        });
+    </script>
 @endsection

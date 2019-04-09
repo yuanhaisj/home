@@ -22,8 +22,8 @@ class CreateJyGoodsTable extends Migration
             $table->string('goods_sn',16)->default('')->comment('商品货号');
             $table->decimal('shop_price',10,2)->default('0.00')->comment('市场价');
             $table->decimal('market_price',10,2)->default('0.00')->comment('本店售价');
-            $table->integer('goods_number')->default(0)->comment('库存数量');
-            $table->integer('warn_number')->default(0)->comment('库存报警数量');
+            $table->integer('goods_num')->default(0)->comment('库存数量');
+            $table->integer('warn_num')->default(0)->comment('库存报警数量');
             $table->string('keywords',30)->default('')->comment('商品关键字');
             $table->text('goods_desc')->comment('
                 商品描述');
@@ -39,6 +39,8 @@ class CreateJyGoodsTable extends Migration
             $table->index('goods_sn');
             $table->unique('goods_name');
             $table->index('keywords');
+
+            $table->engine = 'InnoDB';
         });
     }
 

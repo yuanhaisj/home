@@ -116,5 +116,162 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
 
     /*########################[角色相关]########################*/
     
+    /*########################[商品品牌相关]########################*/
+    Route::get('brand/list','Admin\BrandController@list')->name('admin.brand.list');//品牌列表页面
+    Route::post('brand/data/list','Admin\BrandController@getListData')->name('admin.brand.data.list');//品牌列表数据
+    Route::get('brand/add','Admin\BrandController@add')->name('admin.brand.add');//品牌添加页面
+    Route::post('brand/doAdd','Admin\BrandController@doAdd')->name('admin.brand.doAdd');//执行商品品牌添加
+    Route::get('brand/edit/{id}','Admin\BrandController@edit')->name('admin.brand.edit');//品牌修改页面
+    Route::post('brand/doEdit','Admin\BrandController@doEdit')->name('admin.brand.doEdit');//执行商品品牌修改
+    Route::get('brand/del/{id}','Admin\BrandController@del')->name('admin.brand.del');//执行删除的操作
+    Route::get('brand/change/attr','Admin\BrandController@changeAttr')->name('admin.brand.change.attr');//修改品牌的属性值
+    /*########################[商品品牌相关]########################*/
+
+    /*########################[商品分类相关]########################*/
+    //商品分类列表页面
+    Route::get('category/list','Admin\CategoryController@list')->name('admin.category.list');
+    //获取商品接口分类的数据
+    Route::get('category/get/data/{fid?}','Admin\CategoryController@getListData')->name('admin.category.get.data');
+    //商品添加页面
+    Route::get('category/add','Admin\CategoryController@add')->name('admin.category.add');
+    //商品执行添加操作
+    Route::post('category/doAdd','Admin\CategoryController@doAdd')->name('admin.category.doAdd');
+    //商品编辑页面
+    Route::get('category/edit/{id}','Admin\CategoryController@edit')->name('admin.category.edit');
+    //商品执行编辑操作
+    Route::post('category/doEdit','Admin\CategoryController@doEdit')->name('admin.category.doEdit');
+    //商品执行删除操作
+    Route::get('category/del/{id}','Admin\CategoryController@del')->name('admin.category.del');
+    Route::get('category/change/attr','Admin\CategoryController@changeAttr')->name('admin.category.change.attr');//修改品牌的属性值
+    /*########################[商品分类相关]########################*/
+
+    /*########################[文章分类相关]########################*/
+
+    //文章分类列表
+    Route::get('article/category/list','Admin\ArticleCategoryController@list')->name('admin.article.category.list');
+    //文章分类添加
+    Route::get('article/category/add','Admin\ArticleCategoryController@add')->name('admin.article.category.add');
+    //文章分类执行添加
+    Route::post('article/category/store','Admin\ArticleCategoryController@store')->name('admin.article.category.store');
+
+    //文章分类编辑
+    Route::get('article/category/edit/{id}','Admin\ArticleCategoryController@edit')->name('admin.article.category.edit');
+    //文章分类执行编辑
+    Route::post('article/category/save','Admin\ArticleCategoryController@doEdit')->name('admin.article.category.save');
+
+    //文章分类的删除
+    Route::get('article/category/del/{id}','Admin\ArticleCategoryController@del')->name('admin.article.category.del');
+    /*########################[文章分类相关]########################*/
+
+    /*########################[文章相关]########################*/
+    //文章列表
+     Route::get('article/list','Admin\ArticleController@list')->name('admin.article.list');
+    //文章添加
+    Route::get('article/add','Admin\ArticleController@add')->name('admin.article.add');
+    //文章执行添加
+    Route::post('article/store','Admin\ArticleController@store')->name('admin.article.store');
+
+    //文章编辑
+    Route::get('article/edit/{id}','Admin\ArticleController@edit')->name('admin.article.edit');
+    //文章执行编辑
+    Route::post('article/save','Admin\ArticleController@doEdit')->name('admin.article.save');
+    //文章的删除
+    Route::get('article/del/{id}','Admin\ArticleController@del')->name('admin.article.del');
+    /*########################[文章相关]########################*/
+
+    /*########################[广告位相关]########################*/
+
+    //广告位列表
+    Route::get('position/list','Admin\AdPositionController@list')->name('admin.position.list');
+    //广告位添加页面
+    Route::get('position/add','Admin\AdPositionController@add')->name('admin.position.add');
+    //广告位保存
+    Route::post('position/store','Admin\AdPositionController@store')->name('admin.position.store');
+
+    //广告位编辑
+    Route::get('position/edit/{id}','Admin\AdPositionController@edit')->name('admin.position.edit');
+    //广告位执行编辑
+    Route::post('position/save','Admin\AdPositionController@doEdit')->name('admin.position.save');
+
+    //广告位删除
+    Route::get('position/del/{id}','Admin\AdPositionController@del')->name('admin.position.del');
+    /*########################[广告位相关]########################*/
+
+    /*########################[广告相关]########################*/
+
+    //广告列表
+    Route::get('ad/list','Admin\AdController@list')->name('admin.ad.list');
+    //广告添加页面
+    Route::get('ad/add','Admin\AdController@add')->name('admin.ad.add');
+     //广告添加页面
+    Route::post('ad/store','Admin\AdController@store')->name('admin.ad.store');
+
+    //广告编辑
+    Route::get('ad/edit/{id}','Admin\AdController@edit')->name('admin.ad.edit');
+    //广告执行编辑
+    Route::post('ad/save','Admin\AdController@doEdit')->name('admin.ad.save');
+    //广告删除页面
+    Route::get('ad/del/{id}','Admin\AdController@del')->name('admin.ad.del');
+    /*########################[广告相关]########################*/
+
+    /*########################[商品类型]########################*/
+
+    //商品类型列表
+    Route::get('goods/type/list','Admin\GoodsTypeController@list')->name('admin.goods.type.list');
+    //商品类型添加页面
+    Route::get('goods/type/add','Admin\GoodsTypeController@add')->name('admin.goods.type.add');
+     //执行商品类型添加页面
+    Route::post('goods/type/store','Admin\GoodsTypeController@store')->name('admin.goods.type.store');
+
+    //商品类型编辑
+    Route::get('goods/type/edit/{id}','Admin\GoodsTypeController@edit')->name('admin.goods.type.edit');
+    //商品类型执行编辑
+    Route::post('goods/type/save','Admin\GoodsTypeController@doEdit')->name('admin.goods.type.save');
+
+    //商品类型删除页面
+    Route::get('goods/type/del/{id}','Admin\GoodsTypeController@del')->name('admin.goods.type.del');
+    /*########################[商品类型]########################*/
+
+    /*########################[商品属性]########################*/
+
+    //商品属性列表
+    Route::get('goods/attr/list/{type_id}','Admin\GoodsAttrController@list')->name('admin.goods.attr.list');
+    //商品属性添加页面
+    Route::get('goods/attr/add','Admin\GoodsAttrController@add')->name('admin.goods.attr.add');
+    //执行商品属性添加页面
+    Route::post('goods/attr/store','Admin\GoodsAttrController@store')->name('admin.goods.attr.store');
+    //商品属性编辑页面
+    Route::get('goods/attr/edit/{id}','Admin\GoodsAttrController@edit')->name('admin.goods.attr.edit');
+    //执行商品属性编辑页面
+    Route::post('goods/attr/save','Admin\GoodsAttrController@doEdit')->name('admin.goods.attr.save');
+    //商品类型删除页面
+    Route::get('goods/attr/del/{id}','Admin\GoodsAttrController@del')->name('admin.goods.attr.del');
+    /*########################[商品属性]########################*/
+
+    /*########################[商品相关]########################*/
+    //商品列表
+    Route::get('goods/list','Admin\GoodsController@list')->name('admin.goods.list');
+    //商品列表接口数据
+    Route::any('goods/data/list','Admin\GoodsController@getGoodsData')->name('admin.goods.data.list');
+    //修改商品的属性
+    Route::post('goods/change/attr','Admin\GoodsController@changeAttr')->name('admin.goods.change.attr');
+    //商品添加页面
+    Route::get('goods/add','Admin\GoodsController@add')->name('admin.goods.add');
+    //商品添加操作
+    Route::post('goods/store','Admin\GoodsController@store')->name('admin.goods.store');
+
+    //商品修改页面
+    Route::get('goods/edit/{id}','Admin\GoodsController@edit')->name('admin.goods.edit');
+    //商品修改操作
+    Route::post('goods/save','Admin\GoodsController@doEdit')->name('admin.goods.save');
+
+    //商品删除
+    Route::get('goods/del/{id}','Admin\GoodsController@del')->name('admin.goods.del');
+    //商品相册的数据
+    Route::any('goods/gallery/list/{goods_id}','Admin\GoodsGalleryController@getGallery')->name('admin.goods.gallery.list');
+
+    //商品相册删除
+    Route::get('goods/gallery/del/{id}','Admin\GoodsGalleryController@del')->name('admin.goods.gallery.del');
+    /*########################[商品相关]########################*/
    
 });

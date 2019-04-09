@@ -17,7 +17,7 @@ class CreateJyGoodsTypeTable extends Migration
             $table->increments('id');
             $table->string('type_name',10)->default('')->comment('类型名称');
             $table->enum('status',[1,2])->default(1)->comment('状态 1可用 2禁用');
-            
+            $table->engine = 'InnoDB';
         });
     }
 
