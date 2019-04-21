@@ -11,6 +11,7 @@ use App\Model\Goods;
 use App\Model\GoodsGallery;
 use App\Tools\ToolsAdmin;
 use Illuminate\Support\Facades\DB;
+use App\Tools\ToolsExcel;
 
 class GoodsController extends Controller
 {
@@ -98,7 +99,7 @@ class GoodsController extends Controller
     public function store(Request $request)
     {
     	$params = $request->all();
-        
+        // dd($params);
         //上传图片的上限
     	if(isset($params['gallery']) && count($params['gallery'])>5){
     		return redirect()->back()->msg('msg','已经超过相册上传的上限');
@@ -110,6 +111,7 @@ class GoodsController extends Controller
         //拿到相册的数据
     	$gallery = $params['gallery'];
         unset($params['gallery']);
+        // dd($params);
     	try{
     		//事务开启
     		DB::beginTransaction();
@@ -122,12 +124,13 @@ class GoodsController extends Controller
     		// dd($gallery);
     		//1 格式化相册的数据
     		$gallery_data = [];//初始化的值
+            // dd($gallery);
     		foreach($gallery as $key => $value){
     			//判断是否上传了图片
     			if(array_key_exists('image_url',$value)){
     				$value['image_url'] = ToolsAdmin::uploadFile($value['image_url']);//上传后图片地址
-    			
-    			    $value['goods_id'] = $params['id'];
+    			   
+    			    $value['goods_id'] = $goodsId;
     			    $gallery_data[$key] = $value;//组装新的数据
     			}    			
     			
@@ -265,5 +268,67 @@ class GoodsController extends Controller
 
     	return json_encode($return);
     	
+    }
+
+    //商品批量导入功能
+    public function import()
+    {
+        return view('admin.goods.import');
+    }
+
+    //执行导入的操作
+    public function doImport(Request $request)
+    {
+        $params = $request->all();
+
+        // $params = $this->delToken($params);        
+
+        $files = $params['file_name'];
+        // dd($files);
+        //extension检测文件后缀   判断文件后缀格式
+        if($files->extension() !="xls" && $files->extension() !="xlsx"){
+            return redirect()->back()->with('msg','文件格式不正确，请上传xls，xlsx后缀名文件');
+        }
+
+        $data = ToolsExcel::import($files);
+        // dd($data);
+        $goods = new Goods();
+
+        $goodsData = [];
+        foreach ($data as $key => $value) {
+            $value['goods_sn'] = ToolsAdmin::buildGoodsSn();
+            $goodsData[$key] = $value;
+        }
+        // dd($goodsData);
+        $res = $this->storeDataMany($goods,$goodsData);
+
+        if(!$res){
+            return redirect()->back()->with('msg','导入失败');
+        }
+        return redirect('/admin/goods/list');
+    }
+
+    //商品导出的功能
+    public function export()
+    {
+        $goods = new Goods();
+
+        $data = $this->getDataList($goods);
+        // dd($data);
+        //导出的数据
+        $exportData = [];
+        $head = ['id','cate_id','goods_name','goods_sn'];//excel的head头
+
+        $exportData[] =['ID','分类id','商品名称','商品货号'];
+        //组装打印的数据
+        foreach ($data as $key => $value) {
+            $tmpArr = [];
+            foreach ($head as $column) {
+                $tmpArr[] = $value[$column];
+            }
+            $exportData[] = $tmpArr;
+        }
+        
+        ToolsExcel::exportData($exportData);
     }
 }

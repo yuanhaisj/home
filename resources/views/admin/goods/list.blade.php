@@ -9,6 +9,7 @@
         <h2><i class="fa fa-home"></i> 商品列表 <span>Subtitle goes here...</span></h2>
         <div class="breadcrumb-wrapper">
             <a class="btn btn-sm btn-danger" href="/admin/goods/add">+ 添加新商品</a>
+            <a class="btn btn-sm btn-success" href="/admin/goods/export">+ 商品导出</a>
         </div>
     </div>
 @endsection
@@ -60,10 +61,11 @@
                         <td>{goods.sort}</td>
                         <td>{goods.goods_num}</td>
                         <td>
-                            <button class="btn btn-sn btn-success" v-if="goods.status ==2" @click="changeAttr(goods.id,'status',1)">已审核</button>
-                            <button class="btn btn-sn btn-black" v-else @click="changeAttr(goods.id,'status',2)">未审核</button>
+                            <button class="btn btn-sm btn-success" v-if="goods.status ==2" @click="changeAttr(goods.id,'status',1)">已审核</button>
+                            <button class="btn btn-sm btn-black" v-else @click="changeAttr(goods.id,'status',2)">未审核</button>
                         </td>
                         <td>
+                            <a class="btn btn-sm btn-primary" :href="'/admin/goods/sku/edit/'+goods.id">商品sku</a>
                             <a class="btn btn-sm btn-success" :href="'/admin/goods/edit/'+goods.id">编辑</a>
                             <button class="btn btn-sm btn-danger" @click="goodsDel(goods.id)">删除</button>
                         </td>

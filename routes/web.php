@@ -267,11 +267,133 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
 
     //商品删除
     Route::get('goods/del/{id}','Admin\GoodsController@del')->name('admin.goods.del');
+
+    //商品导入的页面
+    Route::get('goods/import','Admin\GoodsController@import')->name('admin.goods.import');
+    //执行商品导入操作
+    Route::post('goods/doImport','Admin\GoodsController@doImport')->name('admin.goods.doImport');
+    //商品导出
+    Route::any('goods/export','Admin\GoodsController@export')->name('admin.goods.export');
+    
     //商品相册的数据
     Route::any('goods/gallery/list/{goods_id}','Admin\GoodsGalleryController@getGallery')->name('admin.goods.gallery.list');
 
     //商品相册删除
     Route::get('goods/gallery/del/{id}','Admin\GoodsGalleryController@del')->name('admin.goods.gallery.del');
+
+    //商品sku和属性
+    Route::get('goods/sku/edit/{goods_id}','Admin\GoodsSkuController@edit')->name('admin.goods.sku.edit');
+    //商品添加操作
+    Route::post('goods/sku/save','Admin\GoodsSkuController@doEdit')->name('admin.goods.sku.save');
+    //商品sku属性列表的接口
+    Route::any('goods/sku/attr/{goods_id}','Admin\GoodsSkuController@getSkuAttr')->name('admin.goods.sku.attr');
+
+    //商品属性值
+    Route::any('goods/attr/value/{id}','Admin\GoodsSkuController@getAttrValues')->name('admin.goods.attr.value');
+
+    Route::any('goods/sku/list/bind/{id}','Admin\GoodsSkuController@getSkuList')->name('admin.goods.sku.list.bind');
+
+    //商品评论列表
+    Route::get('goods/comment/list','Admin\CommentController@list')->name('admin.goods.comment.list');
+
+    Route::get('goods/comment/del/{id}','Admin\CommentController@del')->name('admin.goods.comment.del');
     /*########################[商品相关]########################*/
+
+    /*########################[系统管理]########################*/
+
+    //支付方式列表
+    Route::get('payment/list','Admin\PaymentController@list')->name('admin.payment.list');
+    //支付添加页面
+    Route::get('payment/add','Admin\PaymentController@add')->name('admin.payment.add');
+    //执行添加
+    Route::post('payment/store','Admin\PaymentController@store')->name('admin.payment.store');
+
+    //编辑页面
+    Route::get('payment/edit/{id}','Admin\PaymentController@edit')->name('admin.payment.edit');
+    //执行编辑
+    Route::post('payment/save','Admin\PaymentController@doEdit')->name('admin.payment.save');
+    //执行删除
+    Route::get('payment/del/{id}','Admin\PaymentController@del')->name('admin.payment.del');
+
+    //配送方式列表
+    Route::get('shipping/list','Admin\ShippingController@list')->name('admin.shipping.list');
+    //添加页面
+    Route::get('shipping/add','Admin\ShippingController@add')->name('admin.shipping.add');
+
+    //执行保存
+    Route::post('shipping/store','Admin\ShippingController@store')->name('admin.shipping.store');
+    //执行删除
+    Route::get('shipping/del/{id}','Admin\ShippingController@del')->name('admin.shipping.del');
+
+    //活动列表
+    Route::get('activity/list','Admin\ActivityController@list')->name('admin.activity.list');
+    //活动添加页面
+    Route::get('activity/add','Admin\ActivityController@add')->name('admin.activity.add');
+    //执行活动保存
+    Route::post('activity/store','Admin\ActivityController@store')->name('admin.activity.store');
+    //活动修改页面
+    Route::get('activity/edit/{id}','Admin\ActivityController@edit')->name('admin.activity.edit');
+    //执行活动修改
+    Route::post('activity/save','Admin\ActivityController@save')->name('admin.activity.save');
+    //删除操作
+    Route::get('activity/del/{id}','Admin\ActivityController@del')->name('admin.activity.del');
+
+    //地区管理
+    Route::get('region/list/{pid?}','Admin\RegionController@list')->name('admin.region.list');
+    //添加页面
+    Route::get('region/add','Admin\RegionController@add')->name('admin.region.add');
+    //执行添加页面
+    Route::post('region/store','Admin\RegionController@store')->name('admin.region.store');
+    //删除
+    Route::get('region/del/{id}','Admin\RegionController@del')->name('admin.region.del');
+    /*########################[系统管理]########################*/
+
+    /*########################[会员管理]########################*/
+    //列表
+    Route::get('member/list','Admin\MemberController@list')->name('admin.member.list');
+    //详情
+    Route::get('member/detail/{id}','Admin\MemberController@detail')->name('admin.member.detail');
+    /*########################[会员管理]########################*/
+
+    /*########################[红包管理]########################*/
+    //红包列表
+    Route::get('bonus/list','Admin\BonusController@list')->name('admin.bonus.list');
+    //红包添加页面
+    Route::get('bonus/add','Admin\BonusController@addBonus')->name('admin.bonus.add');
+    //执行红包添加页面
+    Route::post('bonus/store','Admin\BonusController@doAddBonus')->name('admin.bonus.store');
+
+    //发送红包
+    Route::get('bonus/send/{bonus_id}','Admin\BonusController@sendBonus')->name('admin.bonus.send');
+    //执行发送红包
+    Route::post('bonus/doSend','Admin\BonusController@doSendBonus')->name('admin.bonus.doSend');
+
+    Route::get('user/bonus/list','Admin\BonusController@userBonusList')->name('admin.user.bonus.list');
+    /*########################[红包管理]########################*/
+
+    /*########################[批次管理]########################*/
+    //列表
+    Route::get('batch/list','Admin\BatchController@list')->name('admin.batch.list');
+    //添加页面
+    Route::get('batch/add','Admin\BatchController@add')->name('admin.batch.add');
+    //执行添加页面
+    Route::post('batch/store','Admin\BatchController@store')->name('admin.batch.store');
+    //执行
+    Route::get('batch/do/{id}','Admin\BatchController@doBatch')->name('admin.batch.do');
+    /*########################[批次管理]########################*/
+
+    /*########################[订单管理]########################*/
+    //订单列表页面
+    Route::get('order/list','Admin\OrderController@list')->name('admin.order.list');
+    //订单详情页面
+    Route::get('order/detail/{id}','Admin\OrderController@detail')->name('admin.order.detail');
+
+    //导出
+    Route::get('order/export','Admin\OrderController@export')->name('admin.order.export');
+    //导入的功能页面
+    Route::get('order/import','Admin\OrderController@import')->name('admin.order.import');
+     //执行导入
+    Route::post('order/doImport','Admin\OrderController@doImport')->name('admin.order.doImport');
+    /*########################[订单管理]########################*/
    
 });

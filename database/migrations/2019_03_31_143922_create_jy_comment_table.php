@@ -18,7 +18,7 @@ class CreateJyCommentTable extends Migration
             $table->integer('user_id')->default(0)->comment('评论');
             $table->enum('type',[1,2])->default(1)->comment('1商品  2 文章');
             $table->integer('comment_id')->default(0)->comment('评论的商品或文章id');
-            $table->string('cotent',255)->default('')->comment('评论内容');
+            $table->string('content',255)->default('')->comment('评论内容');
             $table->timestamps();
         });
     }

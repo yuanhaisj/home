@@ -46,13 +46,12 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品分类</label>
                     <div class="col-sm-4">
-                        <select class="form-control" name="cate_id">
-                        @if(!empty($cate_list))
-                            @foreach($cate_list as $cate)
-                                <option value="{{$cate['id']}}">{{str_repeat('-',$cate['level'])}}{{$cate['cate_name']}}</option>
-                            @endforeach
-                        @endif
-                            
+                        <select class="form-control" name="cate_id"> 
+                            @if(!empty($cate_list))
+                                @foreach($cate_list as $cate)
+                                    <option value="{{$cate['id']}}">{{str_repeat('--',$cate['level'])}}{{$cate['cate_name']}}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                      <label class="col-sm-2 control-label">商品品牌</label>
@@ -69,8 +68,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品类型</label>
                     <div class="col-sm-4">
-                        <select class="form-control" name="type_id">                            
-                            @if(!empty($type_list))
+                        <select class="form-control" name="type_id">
+                             @if(!empty($type_list))
                                 @foreach($type_list as $type)
                                     <option value="{{$type['id']}}">{{$type['type_name']}}</option>
                                 @endforeach
@@ -258,9 +257,7 @@
                     }
                 }
             })
-
             $("#alert-danger").hide();
-
             $("#btn-save").click(function(){
                 var goods_num = $("input[name=goods_name]").val();
                 var goods_sn = $("input[name=goods_sn]").val();
@@ -268,35 +265,27 @@
                 var market_price = $("input[name=market_price]").val();
                 var goods_num = $("input[name=goods_num]").val();
                 var warn_num = $("input[name=warn_num]").val();
-
                 if(goods_num == ''){
                     $("#error_msg").text('商品名称不能为空');
                     $(".alert-danger").show();
                     return false;
                 }
-
                 if(goods_sn == ''){
                     $("#error_msg").text('商品货号不能为空');
                     $(".alert-danger").show();
                     return false;
                 }
-
                 if(market_price == '' || market_price == ''){
                      $("#error_msg").text('价格不能为空');
                      $(".alert-danger").show();
                      return false;
                 }
-
                 if(goods_num == '' || warn_num == ''){
                      $("#error_msg").text('库存不能为空');
                      $(".alert-danger").show();
                      return false;
                 }
-
             });
-
-
-
             //开始日期
             $("#shop_time").datetimepicker({
                 format: 'yyyy-mm-dd hh:ii:ss',

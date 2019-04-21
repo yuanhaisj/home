@@ -8,6 +8,7 @@ class Goods extends Model
 {
     //
     protected $table = "jy_goods";
+    public $timestamps = true;
     
     
 }

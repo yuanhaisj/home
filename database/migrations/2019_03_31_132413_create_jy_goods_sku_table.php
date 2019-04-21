@@ -19,7 +19,7 @@ class CreateJyGoodsSkuTable extends Migration
             $table->integer('attr_id')->default(0)->comment('属性id goods_attr');
             $table->string('sku_value',20)->default('')->comment('属性值');
             $table->decimal('attr_price',10,2)->default('0.00')->comment('属性的价格');
-            
+            $table->engine = 'InnoDB';
         });
     }
 

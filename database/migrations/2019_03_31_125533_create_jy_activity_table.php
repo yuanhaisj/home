@@ -18,7 +18,7 @@ class CreateJyActivityTable extends Migration
             $table->string('name',20)->default('')->comment('活动名称');
             $table->timestamp('start_time')->comment('开始时间');
             $table->timestamp('end_time')->comment('结束时间');
-            $table->string('activity_config',50)->default('')->comment('活动配置');
+            $table->string('activity_config',255)->default('')->comment('活动配置');
         });
     }
 

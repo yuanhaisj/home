@@ -15,9 +15,9 @@ class CreateJyBonusTable extends Migration
     {
         Schema::create('jy_bonus', function (Blueprint $table) {
             $table->increments('id')->comment('红包表');
-            $table->string('name',20)->default('')->comment('红包名字');
+            $table->string('bonus_name',20)->default('')->comment('红包名字');
             $table->decimal('money',10,2)->default('0.00')->comment('红包金额');
-            $table->decimal('Min_money',10,2)->default('0.00')->comment('满多少钱可使用');
+            $table->decimal('min_money',10,2)->default('0.00')->comment('满多少钱可使用');
             $table->tinyInteger('expires')->default(0)->comment('用户红包可用天数');
             $table->date('send_start_date')->comment('红包开发日期');
             $table->date('send_end_date')->comment('红包结束发放日期');

@@ -12,7 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
     const
-       PAGE_SIZE = 1,
+       PAGE_SIZE = 3,
        END       = TRUE;
 
     //删除_token下划线token值
@@ -53,15 +53,16 @@ class Controller extends BaseController
         return $object->insert($params);
     }
     
-    //获取数据的公共方法执行修改的操作
-    public function getDataInfo($object,$id,$key="id")
+    //获取数据的公共方法操作
+    public function getDataInfo($object,$id,$key="id",$fields="*")
     {
+        // dd($key);
         if(empty($id)){
             return false;
         }
 
-        $info = $object->where($key,$id)->first();
-
+        $info = $object->select($fields)->where($key,$id)->first();
+        // dd($info);
         return $info;
     }
     

@@ -19,6 +19,7 @@ class CreateJyUserBonusTable extends Migration
             $table->integer('bonus_id')->default(0)->comment('红包id');
             $table->timestamp('start_time')->comment('红包使用开始日期');
             $table->timestamp('end_time')->comment('红包使用截止时间');
+            $table->enum('status',[1,2,3])->default(1)->comment('1 未使用 2 已使用 3 已过期');
             $table->timestamps();
         });
     }

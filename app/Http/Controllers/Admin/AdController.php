@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\AdPosition;
 use App\Model\Ad;
 use App\Tools\toolsAdmin;
+use Excel;
 
 class AdController extends Controller
 {
@@ -42,6 +43,13 @@ class AdController extends Controller
     		return redirect()->back()->with('msg','请先上传图片');
     	}
 
+        $files = $params['image_url'];
+        // dd($files);        
+        Excel::load($files->path(),function($reader){
+            $data = $reader->all()->toArray();
+            dd($data);
+        });        
+        
     	$params['image_url'] = ToolsAdmin::uploadFile($params['image_url']);
 
     	$params = $this->delToken($params);
